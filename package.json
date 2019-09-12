@@ -34,7 +34,15 @@
       "url": "https://github.com/blackflux/lambda-cfn-hook/blob/master/LICENSE"
     }
   ],
-  "keywords": [],
+  "keywords": [
+    "cloudformation",
+    "cfn",
+    "aws lambda",
+    "hook",
+    "custom resource",
+    "callback",
+    "post-deploy"
+  ],
   "files": [
     "lib"
   ],
@@ -71,7 +79,7 @@
   "engines": {
     "node": ">= 10"
   },
-  "description": "???",
+  "description": "Lambda function wrapper for cfn custom resource hook",
   "scripts": {
     "clean": "rm -rf lib",
     "build": "npx babel src --out-dir lib --copy-files --include-dotfiles --config-file ./.babelrc",
