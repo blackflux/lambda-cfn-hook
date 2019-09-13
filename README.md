@@ -29,7 +29,7 @@ module.exports.hook = wrap((event, context) => {
 
 ```
 
-then hook the `hook` function to [custom resource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-custom-resources.html) as Lambda function in CloudFormation template.
+and attach the `hook` function to a [custom resource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-custom-resources.html) as a Lambda function in CloudFormation.
 
 ## Disclaimer
 
