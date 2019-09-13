@@ -3728,10 +3728,10 @@ lambda-async@1.0.1:
   resolved "https://registry.yarnpkg.com/lambda-async/-/lambda-async-1.0.1.tgz#b9e1d0c835054b8c1fe6a9ea73ba56a78e7aa433"
   integrity sha512-IDpfhrvglH03qo1DrMIio/MkB7hVVyXZaAAwO58OjYGo1I694SDDQntIzfMUEQVuHq+8xXk9692FgH+gQEoF/A==
 
-lambda-monitor-logger@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/lambda-monitor-logger/-/lambda-monitor-logger-2.1.0.tgz#d364748f5102947372c0f2a608793230472ffdff"
-  integrity sha512-pZZIGIHCvaX80A1fYauXwlSSsBSU8YWOxH7f3QFNPkoI1N/Xjj2vCnM77sUE2J4qIkU0lPe7bXTiML5+TVR7xA==
+lambda-monitor-logger@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/lambda-monitor-logger/-/lambda-monitor-logger-2.2.0.tgz#e1260ed3886c5cc928ccb958f4f3b57c0272e04b"
+  integrity sha512-VNNi+Kmg9PzrzZmb5pmGjvqeGxUHsSCYyHfEvWXYCEDrXvlpNKwGocc2KC5LFtKUiqWzC3LTaqJZrjGpsR4mZg==
 
 latest-version@^3.0.0:
   version "3.1.0"
