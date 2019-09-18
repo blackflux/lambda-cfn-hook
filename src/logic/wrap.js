@@ -1,6 +1,6 @@
 const request = require('request-promise');
 const { wrap } = require('lambda-async');
-const { logger } = require('lambda-monitor-logger');
+const { logger, abbrev } = require('lambda-monitor-logger');
 
 const submit = async (event, context, success) => {
   const missingKeys = [
@@ -8,7 +8,7 @@ const submit = async (event, context, success) => {
     'LogicalResourceId', 'ResourceType', 'ResourceProperties'
   ].filter((k) => event[k] === undefined);
   if (missingKeys.length !== 0) {
-    logger.error(`Missing Event Keys: ${missingKeys}`);
+    logger.error(`Invalid Event\n${abbrev(event)}`);
     throw new Error('Invalid custom resource event received');
   }
 
