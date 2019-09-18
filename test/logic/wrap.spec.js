@@ -57,7 +57,7 @@ describe('Testing wrap', { useNock: true, record: console }, () => {
   it('Testing bad event', async ({ recorder }) => {
     const r = await executor(() => 'ok', {});
     expect(r.length).to.equal(1);
-    expect(r[0].message).to.equal('Invalid custom resource event received');
+    expect(r[0].message).to.equal('Invalid custom resource event received:\n{}');
     expect(recorder.get()).to.deep.equal([
       'ERROR: Missing Event Keys: RequestType,ServiceToken,ResponseURL,'
       + 'StackId,RequestId,LogicalResourceId,ResourceType,ResourceProperties'
