@@ -59,8 +59,7 @@ describe('Testing wrap', { useNock: true, record: console }, () => {
     expect(r.length).to.equal(1);
     expect(r[0].message).to.equal('Invalid custom resource event received');
     expect(recorder.get()).to.deep.equal([
-      'ERROR: Missing Event Keys: RequestType,ServiceToken,ResponseURL,'
-      + 'StackId,RequestId,LogicalResourceId,ResourceType,ResourceProperties'
+      'ERROR: Invalid Event\n{}'
     ]);
   });
 });
