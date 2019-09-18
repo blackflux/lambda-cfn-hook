@@ -8,8 +8,8 @@ const submit = async (event, context, success) => {
     'LogicalResourceId', 'ResourceType', 'ResourceProperties'
   ].filter((k) => event[k] === undefined);
   if (missingKeys.length !== 0) {
-    logger.error(`Missing Event Keys: ${missingKeys}`);
-    throw new Error(`Invalid custom resource event received:\n${abbrev(event)}`);
+    logger.error(`Invalid Event\n${abbrev(event)}`);
+    throw new Error('Invalid custom resource event received');
   }
 
   const requestBody = JSON.stringify({
