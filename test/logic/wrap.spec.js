@@ -9,7 +9,7 @@ describe('Testing wrap', { useNock: true, record: console }, () => {
       fn = () => 'ok',
       event = fixture('event'),
       context = fixture('context'),
-      opts
+      opts = undefined
     } = {}) => new Promise((resolve) => wrap(fn, opts)(
       event,
       context,

@@ -33,7 +33,7 @@ and attach the `hook` function to a [custom resource](https://docs.aws.amazon.co
 
 ## Options
 
-* `silent` _boolean_: Default `false`. If `true`, then callback failure does not throw error
+* `silent` _boolean_: Default `false`. If set to `true`, then no error is thrown if an event is received that isn't originating from a custom resource life-cycle lambda hook. Useful if the lambda handler is multi purpose.
 
 ## Disclaimer
 

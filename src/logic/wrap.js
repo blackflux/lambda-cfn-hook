@@ -4,13 +4,15 @@ const Joi = require('joi-strict');
 const { wrap } = require('lambda-async');
 const { logger, abbrev } = require('lambda-monitor-logger');
 
-const submit = async (event, context, opts) => {
+const submit = async ({
+  event, context, success, silent
+}) => {
   const missingKeys = [
     'RequestType', 'ServiceToken', 'ResponseURL', 'StackId', 'RequestId',
     'LogicalResourceId', 'ResourceType', 'ResourceProperties'
   ].filter((k) => event[k] === undefined);
   if (missingKeys.length !== 0) {
-    if (opts.silent === true) {
+    if (silent === true) {
       return;
     }
     logger.error(`Invalid Event\n${abbrev(event)}`);
@@ -18,7 +20,7 @@ const submit = async (event, context, opts) => {
   }
 
   const requestBody = JSON.stringify({
-    Status: opts.success ? 'SUCCESS' : 'FAILED',
+    Status: success ? 'SUCCESS' : 'FAILED',
     Reason: `See the details in CloudWatch Log Stream: ${context.logStreamName}`,
     PhysicalResourceId: context.logStreamName,
     StackId: event.StackId,
@@ -53,8 +55,18 @@ module.exports = (fn, opts = {}) => wrap(async (event, context) => {
     await fn(event, context);
   } catch (err) {
     logger.error(`Failure in custom code run inside of lambda-cfn-hook: ${err}`);
-    await submit(event, context, { success: false, silent });
+    await submit({
+      event,
+      context,
+      success: false,
+      silent
+    });
     throw err;
   }
-  await submit(event, context, { success: true, silent });
+  await submit({
+    event,
+    context,
+    success: true,
+    silent
+  });
 });
