@@ -10,12 +10,11 @@ const submit = async (event, context, opts) => {
     'LogicalResourceId', 'ResourceType', 'ResourceProperties'
   ].filter((k) => event[k] === undefined);
   if (missingKeys.length !== 0) {
-    if (opts.errorOnInvalidEvent) {
-      logger.error(`Invalid Event\n${abbrev(event)}`);
-      throw new Error('Invalid custom resource event received');
-    } else {
+    if (opts.silent === true) {
       return;
     }
+    logger.error(`Invalid Event\n${abbrev(event)}`);
+    throw new Error('Invalid custom resource event received');
   }
 
   const requestBody = JSON.stringify({
@@ -47,15 +46,15 @@ const submit = async (event, context, opts) => {
 
 module.exports = (fn, opts = {}) => wrap(async (event, context) => {
   Joi.assert(opts, Joi.object().keys({
-    errorOnInvalidEvent: Joi.boolean().optional()
+    silent: Joi.boolean().optional()
   }));
-  const errorOnInvalidEvent = get(opts, 'errorOnInvalidEvent', true);
+  const silent = get(opts, 'silent', false);
   try {
     await fn(event, context);
   } catch (err) {
     logger.error(`Failure in custom code run inside of lambda-cfn-hook: ${err}`);
-    await submit(event, context, { success: false, errorOnInvalidEvent });
+    await submit(event, context, { success: false, silent });
     throw err;
   }
-  await submit(event, context, { success: true, errorOnInvalidEvent });
+  await submit(event, context, { success: true, silent });
 });

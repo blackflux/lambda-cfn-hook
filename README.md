@@ -33,7 +33,7 @@ and attach the `hook` function to a [custom resource](https://docs.aws.amazon.co
 
 ## Options
 
-// TODO: detail
+* `silent` _boolean_: Default `false`. If `true`, then callback failure does not throw error
 
 ## Disclaimer
 
