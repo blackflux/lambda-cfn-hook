@@ -25,11 +25,15 @@ const { wrap } = require('lambda-cfn-hook');
 
 module.exports.hook = wrap((event, context) => {
   // do stuff here
-});
+}, {/* options */});
 
 ```
 
 and attach the `hook` function to a [custom resource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-custom-resources.html) as a Lambda function in CloudFormation.
+
+## Options
+
+* `silent` _boolean_: Default `false`. If set to `true`, then no error is thrown if an event is received that isn't originating from a custom resource life-cycle lambda hook. Useful if the lambda handler is multi purpose.
 
 ## Disclaimer
 
