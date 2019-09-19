@@ -5,11 +5,12 @@ const wrap = require('../../src/logic/wrap');
 describe('Testing wrap', { useNock: true, record: console }, () => {
   let executor;
   beforeEach(({ fixture }) => {
-    executor = async (
-      fn,
+    executor = async ({
+      fn = () => 'ok',
       event = fixture('event'),
-      context = fixture('context')
-    ) => new Promise((resolve) => wrap(fn)(
+      context = fixture('context'),
+      opts = undefined
+    } = {}) => new Promise((resolve) => wrap(fn, opts)(
       event,
       context,
       (...args) => resolve(args)
@@ -17,13 +18,13 @@ describe('Testing wrap', { useNock: true, record: console }, () => {
   });
 
   it('Testing custom:ok hook:ok', async ({ recorder }) => {
-    const r = await executor(() => 'ok');
+    const r = await executor();
     expect(r).to.deep.equal([null, undefined]);
     expect(recorder.get()).to.deep.equal([]);
   });
 
   it('Testing custom:ok hook:fail', async ({ recorder }) => {
-    const r = await executor(() => 'ok');
+    const r = await executor();
     expect(r.length).to.equal(1);
     expect(r[0].message).to.equal('send(..) failed executing https.request(..)');
     expect(recorder.get()).to.deep.equal([
@@ -32,8 +33,10 @@ describe('Testing wrap', { useNock: true, record: console }, () => {
   });
 
   it('Testing custom:fail hook:fail', async ({ recorder }) => {
-    const r = await executor(() => {
-      throw new Error();
+    const r = await executor({
+      fn: () => {
+        throw new Error();
+      }
     });
     expect(r.length).to.equal(1);
     expect(r[0].message).to.equal('send(..) failed executing https.request(..)');
@@ -45,8 +48,10 @@ describe('Testing wrap', { useNock: true, record: console }, () => {
 
   it('Testing custom:fail hook:ok', async ({ recorder }) => {
     const err = new Error();
-    const r = await executor(() => {
-      throw err;
+    const r = await executor({
+      fn: () => {
+        throw err;
+      }
     });
     expect(r).to.deep.equal([err]);
     expect(recorder.get()).to.deep.equal([
@@ -55,11 +60,21 @@ describe('Testing wrap', { useNock: true, record: console }, () => {
   });
 
   it('Testing bad event', async ({ recorder }) => {
-    const r = await executor(() => 'ok', {});
+    const r = await executor({ event: {} });
     expect(r.length).to.equal(1);
     expect(r[0].message).to.equal('Invalid custom resource event received');
     expect(recorder.get()).to.deep.equal([
       'ERROR: Invalid Event\n{}'
     ]);
+  });
+
+  it('Testing bad event silent', async ({ recorder }) => {
+    const r = await executor({
+      event: {},
+      opts: { silent: true }
+    });
+    expect(r.length).to.equal(2);
+    expect(r).to.deep.equal([null, undefined]);
+    expect(recorder.get()).to.deep.equal([]);
   });
 });
