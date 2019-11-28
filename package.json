@@ -102,7 +102,7 @@
     "url": "https://github.com/blackflux/lambda-cfn-hook/issues"
   },
   "dependencies": {
-    "joi-strict": "1.1.8",
+    "joi-strict": "1.1.9",
     "lambda-async": "1.0.2",
     "lambda-monitor-logger": "2.2.3",
     "lodash.get": "4.4.2",
