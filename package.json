@@ -78,7 +78,7 @@
     "branches": 100
   },
   "engines": {
-    "node": ">= 10"
+    "node": ">= 12"
   },
   "description": "Lambda function wrapper for cfn custom resource hook",
   "scripts": {
