@@ -104,7 +104,7 @@
   },
   "dependencies": {
     "joi-strict": "2.0.0",
-    "lambda-async": "1.0.12",
+    "lambda-async": "2.0.0",
     "lambda-monitor-logger": "2.4.11",
     "lodash.get": "4.4.2",
     "request": "2.88.2",
