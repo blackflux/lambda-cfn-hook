@@ -26,7 +26,6 @@ const { wrap } = require('lambda-cfn-hook');
 module.exports.hook = wrap((event, context) => {
   // do stuff here
 }, {/* options */});
-
 ```
 
 and attach the `hook` function to a [custom resource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-custom-resources.html) as a Lambda function in CloudFormation.
