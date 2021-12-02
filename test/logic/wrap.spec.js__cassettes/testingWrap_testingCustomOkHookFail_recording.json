@@ -13,6 +13,11 @@
       "Data": {}
     },
     "status": 500,
-    "response": ""
+    "response": "",
+    "reqheaders": {
+      "content-type": "",
+      "content-length": 268,
+      "host": "cloudformation-custom-resource-response-uswest2.s3-us-west-2.amazonaws.com"
+    }
   }
 ]
