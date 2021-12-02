@@ -13,9 +13,7 @@
     "reqheaders": {
       "content-type": "",
       "content-length": 267,
-      "host": "cloudformation-custom-resource-response-uswest2.s3-us-west-2.amazonaws.com",
-      "accept": "application/json, text/plain, */*",
-      "user-agent": "axios/0.24.0"
+      "host": "cloudformation-custom-resource-response-uswest2.s3-us-west-2.amazonaws.com"
     }
   }
 ]

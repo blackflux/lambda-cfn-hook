@@ -29,14 +29,17 @@ const submit = async ({
     Data: {}
   });
 
+  const ax = axios.create({});
+  ax.defaults.headers = {};
   try {
-    await axios({
+    await ax({
       method: 'PUT',
       url: event.ResponseURL,
       data: requestBody,
       headers: {
         'content-type': '',
-        'content-length': requestBody.length
+        'content-length': requestBody.length,
+        'user-agent': null
       }
     });
   } catch (err) {
