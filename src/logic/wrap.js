@@ -1,5 +1,5 @@
 const get = require('lodash.get');
-const request = require('request-promise');
+const axios = require('axios');
 const Joi = require('joi-strict');
 const { wrap } = require('lambda-async');
 const { logger, abbrev } = require('lambda-monitor-logger');
@@ -29,16 +29,18 @@ const submit = async ({
     Data: {}
   });
 
+  const ax = axios.create({});
+  ax.defaults.headers = {};
   try {
-    await request({
+    await ax({
       method: 'PUT',
-      uri: event.ResponseURL,
-      body: requestBody,
+      url: event.ResponseURL,
+      data: requestBody,
       headers: {
         'content-type': '',
-        'content-length': requestBody.length
-      },
-      resolveWithFullResponse: true
+        'content-length': requestBody.length,
+        'user-agent': null
+      }
     });
   } catch (err) {
     logger.error(`send(..) failed executing https.request(..): ${err}`);

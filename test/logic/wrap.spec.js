@@ -28,7 +28,7 @@ describe('Testing wrap', { useNock: true, record: console }, () => {
     expect(r.length).to.equal(1);
     expect(r[0].message).to.equal('send(..) failed executing https.request(..)');
     expect(recorder.get()).to.deep.equal([
-      'ERROR: send(..) failed executing https.request(..): StatusCodeError: 500 - ""'
+      'ERROR: send(..) failed executing https.request(..): Error: Request failed with status code 500'
     ]);
   });
 
@@ -42,7 +42,7 @@ describe('Testing wrap', { useNock: true, record: console }, () => {
     expect(r[0].message).to.equal('send(..) failed executing https.request(..)');
     expect(recorder.get()).to.deep.equal([
       'ERROR: Failure in custom code run inside of lambda-cfn-hook: Error',
-      'ERROR: send(..) failed executing https.request(..): StatusCodeError: 500 - ""'
+      'ERROR: send(..) failed executing https.request(..): Error: Request failed with status code 500'
     ]);
   });
 
