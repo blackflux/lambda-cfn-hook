@@ -1,1 +1,1 @@
-module.exports.wrap = require('./logic/wrap');
+export * as wrap from './logic/wrap.js';
