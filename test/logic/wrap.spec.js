@@ -1,6 +1,6 @@
-const expect = require('chai').expect;
-const { describe } = require('node-tdd');
-const wrap = require('../../src/logic/wrap');
+import { expect } from 'chai';
+import { describe } from 'node-tdd';
+import wrap from '../../src/logic/wrap.js';
 
 describe('Testing wrap', { useNock: true, record: console }, () => {
   let executor;
@@ -10,11 +10,13 @@ describe('Testing wrap', { useNock: true, record: console }, () => {
       event = fixture('event'),
       context = fixture('context'),
       opts = undefined
-    } = {}) => new Promise((resolve) => wrap(fn, opts)(
-      event,
-      context,
-      (...args) => resolve(args)
-    ));
+    } = {}) => new Promise((resolve) => {
+      wrap(fn, opts)(
+        event,
+        context,
+        (...args) => resolve(args)
+      );
+    });
   });
 
   it('Testing custom:ok hook:ok', async ({ recorder }) => {
@@ -28,7 +30,8 @@ describe('Testing wrap', { useNock: true, record: console }, () => {
     expect(r.length).to.equal(1);
     expect(r[0].message).to.equal('send(..) failed executing https.request(..)');
     expect(recorder.get()).to.deep.equal([
-      'ERROR: send(..) failed executing https.request(..): Error: Request failed with status code 500'
+      // eslint-disable-next-line max-len
+      'ERROR: send(..) failed executing https.request(..)\n{"Status":"SUCCESS","Reason":"See the details in CloudWatch Log Stream: log","PhysicalResourceId":"log","StackId":"arn:aws:cloudformation:us-west-2:...","RequestId":"d373acbe-b7fd-46f1-a645-95b3002ec39b","LogicalResourceId":"TriggerPostDeployLambdaResource","Data":{}}'
     ]);
   });
 
@@ -42,7 +45,8 @@ describe('Testing wrap', { useNock: true, record: console }, () => {
     expect(r[0].message).to.equal('send(..) failed executing https.request(..)');
     expect(recorder.get()).to.deep.equal([
       'ERROR: Failure in custom code run inside of lambda-cfn-hook: Error',
-      'ERROR: send(..) failed executing https.request(..): Error: Request failed with status code 500'
+      // eslint-disable-next-line max-len
+      'ERROR: send(..) failed executing https.request(..)\n{"Status":"FAILED","Reason":"See the details in CloudWatch Log Stream: log","PhysicalResourceId":"log","StackId":"arn:aws:cloudformation:us-west-2:...","RequestId":"d373acbe-b7fd-46f1-a645-95b3002ec39b","LogicalResourceId":"TriggerPostDeployLambdaResource","Data":{}}'
     ]);
   });
 
