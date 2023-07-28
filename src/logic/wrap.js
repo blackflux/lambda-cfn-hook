@@ -1,8 +1,8 @@
-const get = require('lodash.get');
-const axios = require('axios');
-const Joi = require('joi-strict');
-const { wrap } = require('lambda-async');
-const { logger, abbrev } = require('lambda-monitor-logger');
+import get from 'lodash.get';
+import axios from '@blackflux/axios';
+import Joi from 'joi-strict';
+import { wrap } from 'lambda-async';
+import { logger, abbrev } from 'lambda-monitor-logger';
 
 const submit = async ({
   event, context, success, silent
@@ -43,12 +43,12 @@ const submit = async ({
       }
     });
   } catch (err) {
-    logger.error(`send(..) failed executing https.request(..): ${err}`);
+    logger.error(`send(..) failed executing https.request(..)\n${err?.config?.data}`);
     throw new Error('send(..) failed executing https.request(..)');
   }
 };
 
-module.exports = (fn, opts = {}) => wrap(async (event, context) => {
+export default (fn, opts = {}) => wrap(async (event, context) => {
   Joi.assert(opts, Joi.object().keys({
     silent: Joi.boolean().optional()
   }));

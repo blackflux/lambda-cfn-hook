@@ -21,9 +21,9 @@ npm i --save lambda-cfn-hook
 
 <!-- eslint-disable import/no-unresolved, import/no-extraneous-dependencies -->
 ```js
-const { wrap } = require('lambda-cfn-hook');
+import { wrap } from 'lambda-cfn-hook';
 
-module.exports.hook = wrap((event, context) => {
+export const hook = wrap((event, context) => {
   // do stuff here
 }, {/* options */});
 ```
