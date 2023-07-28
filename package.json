@@ -45,7 +45,7 @@
     "lib"
   ],
   "engines": {
-    "node": ">= 12"
+    "node": ">= 16"
   },
   "description": "Lambda function wrapper for cfn custom resource hook",
   "scripts": {
