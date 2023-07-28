@@ -1,1 +1,1 @@
-export * as wrap from './logic/wrap.js';
+export { default as wrap } from './logic/wrap.js';
