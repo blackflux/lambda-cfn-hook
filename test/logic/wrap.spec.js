@@ -4,6 +4,7 @@ import wrap from '../../src/logic/wrap.js';
 
 describe('Testing wrap', { useNock: true, record: console }, () => {
   let executor;
+
   beforeEach(({ fixture }) => {
     executor = async ({
       fn = () => 'ok',
