@@ -13,7 +13,7 @@ Lambda function wrapper for cfn custom resource hook
 
 ## Install
 
-```bash
+```
 npm i --save lambda-cfn-hook
 ```
 
