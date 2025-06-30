@@ -11,39 +11,34 @@ describe('Testing wrap', { useNock: true, record: console }, () => {
       event = fixture('event'),
       context = fixture('context'),
       opts = undefined
-    } = {}) => new Promise((resolve) => {
-      wrap(fn, opts)(
-        event,
-        context,
-        (...args) => resolve(args)
-      );
-    });
+    } = {}) => wrap(fn, opts)(
+      event,
+      context
+    );
   });
 
   it('Testing custom:ok hook:ok', async ({ recorder }) => {
     const r = await executor();
-    expect(r).to.deep.equal([null, undefined]);
+    expect(r).to.deep.equal(undefined);
     expect(recorder.get()).to.deep.equal([]);
   });
 
-  it('Testing custom:ok hook:fail', async ({ recorder }) => {
-    const r = await executor();
-    expect(r.length).to.equal(1);
-    expect(r[0].message).to.equal('send(..) failed executing https.request(..)');
+  it('Testing custom:ok hook:fail', async ({ capture, recorder }) => {
+    const err = await capture(() => executor());
+    expect(err.message).to.equal('send(..) failed executing https.request(..)');
     expect(recorder.get()).to.deep.equal([
       // eslint-disable-next-line max-len
       'ERROR: send(..) failed executing https.request(..)\n{"Status":"SUCCESS","Reason":"See the details in CloudWatch Log Stream: log","PhysicalResourceId":"log","StackId":"arn:aws:cloudformation:us-west-2:...","RequestId":"d373acbe-b7fd-46f1-a645-95b3002ec39b","LogicalResourceId":"TriggerPostDeployLambdaResource","Data":{}}'
     ]);
   });
 
-  it('Testing custom:fail hook:fail', async ({ recorder }) => {
-    const r = await executor({
+  it('Testing custom:fail hook:fail', async ({ capture, recorder }) => {
+    const err = await capture(() => executor({
       fn: () => {
         throw new Error();
       }
-    });
-    expect(r.length).to.equal(1);
-    expect(r[0].message).to.equal('send(..) failed executing https.request(..)');
+    }));
+    expect(err.message).to.equal('send(..) failed executing https.request(..)');
     expect(recorder.get()).to.deep.equal([
       'ERROR: Failure in custom code run inside of lambda-cfn-hook: Error',
       // eslint-disable-next-line max-len
@@ -51,35 +46,33 @@ describe('Testing wrap', { useNock: true, record: console }, () => {
     ]);
   });
 
-  it('Testing custom:fail hook:ok', async ({ recorder }) => {
-    const err = new Error();
-    const r = await executor({
+  it('Testing custom:fail hook:ok', async ({ capture, recorder }) => {
+    const myError = new Error();
+    const err = await capture(() => executor({
       fn: () => {
-        throw err;
+        throw myError;
       }
-    });
-    expect(r).to.deep.equal([err]);
+    }));
+    expect(err).to.equal(myError);
     expect(recorder.get()).to.deep.equal([
       'ERROR: Failure in custom code run inside of lambda-cfn-hook: Error'
     ]);
   });
 
-  it('Testing bad event', async ({ recorder }) => {
-    const r = await executor({ event: {} });
-    expect(r.length).to.equal(1);
-    expect(r[0].message).to.equal('Invalid custom resource event received');
+  it('Testing bad event', async ({ capture, recorder }) => {
+    const err = await capture(() => executor({ event: {} }));
+    expect(err.message).to.equal('Invalid custom resource event received');
     expect(recorder.get()).to.deep.equal([
       'ERROR: Invalid Event\n{}'
     ]);
   });
 
-  it('Testing bad event silent', async ({ recorder }) => {
+  it('Testing bad event silent', async ({ capture, recorder }) => {
     const r = await executor({
       event: {},
       opts: { silent: true }
     });
-    expect(r.length).to.equal(2);
-    expect(r).to.deep.equal([null, undefined]);
+    expect(r).to.deep.equal(undefined);
     expect(recorder.get()).to.deep.equal([]);
   });
 });
